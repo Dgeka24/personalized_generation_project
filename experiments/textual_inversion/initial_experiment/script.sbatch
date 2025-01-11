@@ -10,24 +10,11 @@
 
 module load Python/Anaconda_v03.2023
 
-conda deactivate
-conda activate ldm
+source deactivate
+source activate ldm
 
 # дальше нужно написать список команд, которые нужно выполнить для эксперимента, к примеру:
 # обучаем новый токен
-python3 main.py --base configs/latent-diffusion/txt2img-1p4B-finetune.yaml
-               -t
-               --actual_resume /home/eisenkevich/models/ldm/text2img-large/model.ckpt
-               -n initial_experiment
-               --gpus 0,
-               --data_root /home/eisenkevich/code/personalized_generation_project/experiments/textual_inversion/initial_experiment/images
-               --init_word figure
+python3 main.py --base configs/latent-diffusion/txt2img-1p4B-finetune.yaml -t --actual_resume /home/eisenkevich/models/ldm/text2img-large/model.ckpt -n initial_experiment --gpus 0, --data_root /home/eisenkevich/code/personalized_generation_project/experiments/textual_inversion/initial_experiment/images --init_word figure
 # генерируем изображения по этому токену
-python3 scripts/txt2img.py --ddim_eta 0.0
-                          --n_samples 8
-                          --n_iter 2
-                          --scale 10.0
-                          --ddim_steps 50
-                          --embedding_path /path/to/logs/trained_model/checkpoints/embeddings_gs-5049.pt
-                          --ckpt_path /home/eisenkevich/models/ldm/text2img-large/model.ckpt
-                          --prompt "a photo of *"
+python3 scripts/txt2img.py --ddim_eta 0.0 --n_samples 8 --n_iter 2 --scale 10.0 --ddim_steps 50 --embedding_path /path/to/logs/trained_model/checkpoints/embeddings_gs-5049.pt --ckpt_path /home/eisenkevich/models/ldm/text2img-large/model.ckpt --prompt "a photo of *"
